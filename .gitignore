@@ -1,0 +1,30 @@
+# Binarios compilados
+server/server
+client/client
+
+# Código generado por gSOAP (se regenera en cada build)
+**/soap*.cpp
+**/soap*.h
+**/*.nsmap
+**/Calculadora.req.xml
+**/Calculadora.res.xml
+**/Calculadora.convertir.req.xml
+**/Calculadora.convertir.res.xml
+**/ns.xsd
+**/calc_gen.h
+**/typemap.dat
+
+# Excepción: queremos versionar el WSDL del cliente y el calc.h del server
+!server/calc.h
+!client/Calculadora.wsdl
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema
+.DS_Store
+Thumbs.db

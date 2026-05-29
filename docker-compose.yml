@@ -1,0 +1,33 @@
+services:
+  # Servicio SOAP que simula un sistema externo (ej: banco).
+  # Expone el método "convertir" en el puerto 8081.
+  server:
+    build: ./server
+    container_name: gsoap-server
+    networks:
+      - soap-net
+    # Mapeamos el puerto al host por si quieres probar desde fuera con curl/Postman.
+    ports:
+      - "8081:8081"
+
+  # Cliente que demuestra el CASO 3:
+  # parte de un WSDL externo, lo procesa con wsdl2h + soapcpp2, y consume el servicio.
+  client:
+    build: ./client
+    container_name: gsoap-client
+    networks:
+      - soap-net
+    # El cliente espera al servidor antes de arrancar.
+    depends_on:
+      - server
+    # SOAP_ENDPOINT apunta al servicio interno por nombre de servicio (red de Docker).
+    environment:
+      SOAP_ENDPOINT: "http://server:8081"
+    # El contenedor queda corriendo (tail -f) para que entres y ejecutes ./client.
+    # Esto permite probar varias veces sin reconstruir.
+    tty: true
+    stdin_open: true
+
+networks:
+  soap-net:
+    driver: bridge

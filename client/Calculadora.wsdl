@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Calculadora"
+  targetNamespace="urn:calculadora"
+  xmlns:tns="urn:calculadora"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <xsd:schema targetNamespace="urn:calculadora" elementFormDefault="unqualified">
+      <xsd:element name="convertir">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="monto" type="xsd:double"/>
+            <xsd:element name="tasa"  type="xsd:double"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="convertirResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="resultado" type="xsd:double" minOccurs="0"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+
+  <message name="convertirRequest">
+    <part name="parameters" element="tns:convertir"/>
+  </message>
+  <message name="convertirResponse">
+    <part name="parameters" element="tns:convertirResponse"/>
+  </message>
+
+  <portType name="CalculadoraPortType">
+    <operation name="convertir">
+      <input  message="tns:convertirRequest"/>
+      <output message="tns:convertirResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="Calculadora" type="tns:CalculadoraPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="convertir">
+      <soap:operation soapAction=""/>
+      <input>  <soap:body use="literal"/> </input>
+      <output> <soap:body use="literal"/> </output>
+    </operation>
+  </binding>
+
+  <service name="Calculadora">
+    <port name="Calculadora" binding="tns:Calculadora">
+      <soap:address location="http://localhost:8081"/>
+    </port>
+  </service>
+</definitions>
